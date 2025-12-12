@@ -48,7 +48,16 @@ try {
     }
 
     // Configurar URLs base
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+    // Configurar URLs base (Forçar HTTPS no Railway/Produção)
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
+    if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+        $protocol = "https://";
+    }
+    // Se estiver no Railway (.app), força HTTPS por segurança
+    if (strpos($_SERVER['HTTP_HOST'], 'railway.app') !== false) {
+        $protocol = "https://";
+    }
+
     $host = $_SERVER['HTTP_HOST'];
     $base = $protocol . $host;
 
@@ -153,6 +162,11 @@ try {
         }
 
         $postbackUrl = $base . '/callback/mercadopago.php';
+
+        // Log para debug
+        $logFile = __DIR__ . '/../callback/webhook_log.txt';
+        $logMsg = date('d/m/Y H:i:s') . " - Criando Pagamento MP. Notification URL: " . $postbackUrl . PHP_EOL;
+        file_put_contents($logFile, $logMsg, FILE_APPEND);
 
         $payload = [
             "transaction_amount" => (float) $amount,
