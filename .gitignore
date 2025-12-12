@@ -6,6 +6,7 @@ Thumbs.db
 *.log
 logs/
 *.sql
+!database_template.sql
 
 # Vendor (será instalado pelo composer)
 # vendor/
