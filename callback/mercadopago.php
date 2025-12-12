@@ -38,6 +38,10 @@ if (isset($data['action']) && strpos($data['action'], 'payment.') !== false) {
 } elseif (isset($data['id'])) {
     // As vezes o MP manda o ID direto na raiz em testes
     $paymentId = $data['id'];
+} elseif (isset($data['topic']) && $data['topic'] === 'payment') {
+    $resource = $data['resource'];
+    $parts = explode('/', $resource);
+    $paymentId = end($parts);
 }
 
 if (!$paymentId) {
