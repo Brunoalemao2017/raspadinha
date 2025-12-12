@@ -1,0 +1,113 @@
+10/08/2025 00:41:52 - PAYLOAD ONDAPAY: Array
+(
+    [status] => PAID_OUT
+    [type_transaction] => CASH_IN
+    [transaction_id] => TRX-20250809214142-4796
+    [amount] => 10
+    [net_amount] => 9
+    [payer] => Array
+        (
+            [document] => 16079556790
+            [name] => admin
+        )
+
+    [external_id] => 6897eac3f31e4
+)
+
+10/08/2025 00:41:52 - ----------------------------------------------------------
+10/08/2025 00:41:52 - INICIANDO PROCESSO PARA TXN: TRX-20250809214142-4796
+10/08/2025 00:41:52 - DEPÓSITO ENCONTRADO: Array
+(
+    [id] => 19
+    [user_id] => 1
+    [valor] => 10.00
+    [status] => PENDING
+)
+
+10/08/2025 00:41:52 - DEPÓSITO ATUALIZADO PARA PAID
+10/08/2025 00:41:52 - SALDO CREDITADO: R$ 10.00 para usuário 1
+10/08/2025 00:41:52 - USUÁRIO DATA: Array
+(
+    [indicacao] => 
+)
+
+10/08/2025 00:41:52 - USUÁRIO SEM INDICAÇÃO
+10/08/2025 00:41:52 - TRANSAÇÃO FINALIZADA COM SUCESSO
+12/08/2025 05:16:32 - PAYLOAD ONDAPAY: Array
+(
+    [status] => PAID_OUT
+    [type_transaction] => CASH_IN
+    [transaction_id] => TRX-20250812021604-1151
+    [amount] => 20
+    [net_amount] => 19.4
+    [payer] => Array
+        (
+            [document] => 08103986135
+            [name] => admin
+        )
+
+    [external_id] => 689ace127f457
+)
+
+12/08/2025 05:16:32 - ----------------------------------------------------------
+12/08/2025 05:16:32 - INICIANDO PROCESSO PARA TXN: TRX-20250812021604-1151
+12/08/2025 05:16:32 - DEPÓSITO ENCONTRADO: Array
+(
+    [id] => 21
+    [user_id] => 1
+    [valor] => 20.00
+    [status] => PENDING
+)
+
+12/08/2025 05:16:32 - DEPÓSITO ATUALIZADO PARA PAID
+12/08/2025 05:16:32 - SALDO CREDITADO: R$ 20.00 para usuário 1
+12/08/2025 05:16:32 - USUÁRIO DATA: Array
+(
+    [indicacao] => 
+)
+
+12/08/2025 05:16:32 - USUÁRIO SEM INDICAÇÃO
+12/08/2025 05:16:32 - TRANSAÇÃO FINALIZADA COM SUCESSO
+12/08/2025 23:11:00 - PAYLOAD ONDAPAY: Array
+(
+    [status] => PAID_OUT
+    [type_transaction] => CASH_IN
+    [transaction_id] => TRX-20250812201033-1464
+    [amount] => 12
+    [net_amount] => 11
+    [payer] => Array
+        (
+            [document] => 08103986135
+            [name] => Leandro
+        )
+
+    [external_id] => 689bc9e4830de
+)
+
+12/08/2025 23:11:00 - ----------------------------------------------------------
+12/08/2025 23:11:00 - INICIANDO PROCESSO PARA TXN: TRX-20250812201033-1464
+12/08/2025 23:11:00 - DEPÓSITO ENCONTRADO: Array
+(
+    [id] => 24
+    [user_id] => 492
+    [valor] => 12.00
+    [status] => PENDING
+)
+
+12/08/2025 23:11:00 - DEPÓSITO ATUALIZADO PARA PAID
+12/08/2025 23:11:00 - SALDO CREDITADO: R$ 12.00 para usuário 492
+12/08/2025 23:11:00 - USUÁRIO DATA: Array
+(
+    [indicacao] => 490
+)
+
+12/08/2025 23:11:00 - USUÁRIO TEM INDICAÇÃO: 490
+12/08/2025 23:11:00 - AFILIADO DATA: Array
+(
+    [id] => 490
+    [comissao_cpa] => 0
+    [banido] => 0
+)
+
+12/08/2025 23:11:00 - CPA NÃO PAGO: Afiliado inválido ou sem comissão
+12/08/2025 23:11:00 - TRANSAÇÃO FINALIZADA COM SUCESSO

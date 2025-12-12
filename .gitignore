@@ -1,0 +1,32 @@
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.sql
+
+# Vendor (será instalado pelo composer)
+# vendor/
+
+# Configurações locais
+.env.local
+.env.*.local
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos temporários
+tmp/
+temp/
+cache/
+
+# Imagens de exemplo (mantenha apenas as necessárias)
+# Imagens/
+
+# Arquivo ZIP original
+*.zip
