@@ -26,7 +26,7 @@ try {
     $stmt = $pdo->query("SELECT active FROM gateway LIMIT 1");
     $activeGateway = $stmt->fetchColumn();
 
-    if (!in_array($activeGateway, ['ondapay'])) {
+    if (!in_array($activeGateway, ['ondapay', 'mercadopago'])) {
         throw new Exception('Gateway não configurado ou não suportado.');
     }
 
@@ -74,7 +74,7 @@ try {
             CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => [
                 "client_id: $ci",
-              	"client_secret: $cs",
+                "client_secret: $cs",
             ]
         ]);
         $response = curl_exec($ch);
@@ -89,7 +89,7 @@ try {
         $postbackUrl = $base . '/callback/ondapay.php';
 
         $payload = [
-            'amount' => (float)$amount,
+            'amount' => (float) $amount,
             'external_id' => $external_id,
             'webhook' => $postbackUrl,
             'description' => 'Pagamento Raspadinha',
@@ -98,7 +98,7 @@ try {
                 'document' => $cpf,
                 'email' => $usuario['email']
             ],
-          	'dueDate' => date('Y-m-d H:i:s', strtotime('+1 day'))
+            'dueDate' => date('Y-m-d H:i:s', strtotime('+1 day'))
         ];
 
         $ch = curl_init("$url/api/v1/deposit/pix");
@@ -143,7 +143,83 @@ try {
             'gateway' => 'ondapay'
         ]);
 
-    } 
+    } elseif ($activeGateway === 'mercadopago') {
+        // ===== PROCESSAR COM Mercado Pago =====
+        $stmt = $pdo->query("SELECT access_token FROM mercadopago LIMIT 1");
+        $mpConfig = $stmt->fetch();
+
+        if (!$mpConfig) {
+            throw new Exception('Credenciais Mercado Pago não encontradas.');
+        }
+
+        $postbackUrl = $base . '/callback/mercadopago.php';
+
+        $payload = [
+            "transaction_amount" => (float) $amount,
+            "description" => "Depósito " . $usuario['nome'],
+            "payment_method_id" => "pix",
+            "payer" => [
+                "email" => $usuario['email'],
+                "first_name" => explode(' ', $usuario['nome'])[0],
+                "identification" => [
+                    "type" => "CPF",
+                    "number" => $cpf
+                ]
+            ],
+            "notification_url" => $postbackUrl
+        ];
+
+        $ch = curl_init("https://api.mercadopago.com/v1/payments");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => [
+                "Authorization: Bearer " . $mpConfig['access_token'],
+                "Content-Type: application/json",
+                "X-Idempotency-Key: " . $idempotencyKey
+            ]
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $mpData = json_decode($response, true);
+
+        // Log de erro se necessário
+        if ($httpCode !== 201 || !isset($mpData['id'], $mpData['point_of_interaction']['transaction_data']['qr_code'])) {
+            // Tenta pegar msg de erro do MP
+            $msg = $mpData['message'] ?? 'Erro ao criar PIX no Mercado Pago.';
+            throw new Exception($msg);
+        }
+
+        $pixCopiaCola = $mpData['point_of_interaction']['transaction_data']['qr_code'];
+        $transactionId = $mpData['id'];
+
+        // Salvar no banco
+        $stmt = $pdo->prepare("
+            INSERT INTO depositos (transactionId, user_id, nome, cpf, valor, status, qrcode, gateway, idempotency_key)
+            VALUES (:transactionId, :user_id, :nome, :cpf, :valor, 'PENDING', :qrcode, 'mercadopago', :idempotency_key)
+        ");
+
+        $stmt->execute([
+            ':transactionId' => $transactionId,
+            ':user_id' => $usuario_id,
+            ':nome' => $usuario['nome'],
+            ':cpf' => $cpf,
+            ':valor' => $amount,
+            ':qrcode' => $pixCopiaCola,
+            ':idempotency_key' => $idempotencyKey
+        ]);
+
+        $_SESSION['transactionId'] = $transactionId;
+
+        echo json_encode([
+            'qrcode' => $pixCopiaCola,
+            'gateway' => 'mercadopago'
+        ]);
+    }
 
 } catch (Exception $e) {
     http_response_code(500);
