@@ -123,10 +123,27 @@ try {
         $response = curl_exec($ch);
         curl_close($ch);
 
+        // --- DEBUG START ---
+        $curlError = curl_error($ch);
         $pixData = json_decode($response, true);
 
+        $logFile = __DIR__ . '/../callback/ondapay_debug.txt';
+        $logEntry = "Time: " . date('Y-m-d H:i:s') . "\n";
+        $logEntry .= "Auth Response: " . print_r($authData, true) . "\n";
+        $logEntry .= "Deposit Payload: " . print_r($payload, true) . "\n";
+        $logEntry .= "Deposit Response Raw: " . var_export($response, true) . "\n";
+        $logEntry .= "Curl Error: " . var_export($curlError, true) . "\n";
+        $logEntry .= "Deposit Response Decoded: " . print_r($pixData, true) . "\n";
+        $logEntry .= "----------------------------------\n";
+        file_put_contents($logFile, $logEntry, FILE_APPEND);
+        // --- DEBUG END ---
+
         if (!isset($pixData['id_transaction'], $pixData['qrcode'])) {
-            throw new Exception('Falha ao gerar QR Code.');
+            // Include api error message if available
+            $apiError = isset($pixData['message']) ? $pixData['message'] : json_encode($pixData);
+            if ($curlError)
+                $apiError .= " | Curl Error: " . $curlError;
+            throw new Exception('Falha ao gerar QR Code. OndaPay disse: ' . $apiError);
         }
 
         // Salvar no banco
