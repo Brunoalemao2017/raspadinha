@@ -13,6 +13,20 @@ if ($admin != 1) {
     exit;
 }
 
+// Criar tabela velana se não existir
+try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS velana (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        api_key VARCHAR(255) DEFAULT '',
+        secret_key VARCHAR(255) DEFAULT ''
+    )");
+    $count = $pdo->query("SELECT COUNT(*) FROM velana")->fetchColumn();
+    if ($count == 0) {
+        $pdo->exec("INSERT INTO velana (api_key, secret_key) VALUES ('', '')");
+    }
+} catch (Exception $e) {
+}
+
 // Processar formulários
 if (isset($_POST['salvar_gateway'])) {
     $gateway_ativa = $_POST['gateway_ativa'];
@@ -56,6 +70,21 @@ if (isset($_POST['salvar_mercadopago'])) {
     exit;
 }
 
+if (isset($_POST['salvar_velana'])) {
+    $api_key = $_POST['velana_api_key'];
+    $secret_key = $_POST['velana_secret_key'];
+
+    // Check if table exists (just in case)
+    $stmt = $pdo->prepare("UPDATE velana SET api_key = ?, secret_key = ?");
+    if ($stmt->execute([$api_key, $secret_key])) {
+        $_SESSION['success'] = 'Credenciais Velana alteradas!';
+    } else {
+        $_SESSION['failure'] = 'Erro ao alterar as credenciais Velana!';
+    }
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+
 
 
 
@@ -72,6 +101,9 @@ $ondapay = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $stmt = $pdo->query("SELECT access_token, public_key FROM mercadopago");
 $mercadopago = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->query("SELECT api_key, secret_key FROM velana");
+$velana = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -970,12 +1002,12 @@ $mercadopago = $stmt->fetch(PDO::FETCH_ASSOC);
     <!-- Notifications -->
     <?php if (isset($_SESSION['success'])): ?>
         <script>
-            Notiflix.Notify.success('<?= $_SESSION['success'] ?>');
+                Notiflix.Notify.success('<?= $_SESSION['success'] ?>');
         </script>
         <?php unset($_SESSION['success']); ?>
     <?php elseif (isset($_SESSION['failure'])): ?>
         <script>
-            Notiflix.Notify.failure('<?= $_SESSION['failure'] ?>');
+                Notiflix.Notify.failure('<?= $_SESSION['failure'] ?>');
         </script>
         <?php unset($_SESSION['failure']); ?>
     <?php endif; ?>
@@ -1100,6 +1132,9 @@ $mercadopago = $stmt->fetch(PDO::FETCH_ASSOC);
                             <option value="mercadopago" <?= ($gateway['active'] == 'mercadopago') ? 'selected' : '' ?>>
                                 Mercado Pago
                             </option>
+                            <option value="velana" <?= ($gateway['active'] == 'velana') ? 'selected' : '' ?>>
+                                Velana
+                            </option>
 
                         </select>
                         <input type="hidden" name="salvar_gateway" value="1">
@@ -1205,6 +1240,55 @@ $mercadopago = $stmt->fetch(PDO::FETCH_ASSOC);
                         </button>
                     </form>
                 </div>
+
+                <!-- Velana Credentials -->
+                <div class="form-container">
+                    <form method="POST">
+                        <h2 class="form-title">
+                            <i class="fas fa-wallet"></i>
+                            Credenciais Velana
+                        </h2>
+
+                        <div class="digitopay-warning">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="digitopay-warning-content">
+                                <strong>Velana:</strong> Certifique-se de usar sua API Key e Secret para gerar
+                                transações via PIX.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-key"></i>
+                                API Key
+                            </label>
+                            <input type="text" name="velana_api_key"
+                                value="<?= htmlspecialchars($velana['api_key'] ?? '') ?>" class="form-input"
+                                placeholder="Digite sua API Key da Velana" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-lock"></i>
+                                Secret Key
+                            </label>
+                            <input type="password" name="velana_secret_key"
+                                value="<?= htmlspecialchars($velana['secret_key'] ?? '') ?>"
+                                class="form-input with-toggle" placeholder="Digite seu Secret da Velana" required
+                                id="velanaSecret">
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('velanaSecret', 'velanaToggleIcon')">
+                                <i class="fas fa-eye" id="velanaToggleIcon"></i>
+                            </button>
+                        </div>
+
+                        <button type="submit" name="salvar_velana" class="submit-button"
+                            style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fas fa-shield-alt"></i>
+                            Salvar Credenciais Velana
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
@@ -1292,8 +1376,7 @@ $mercadopago = $stmt->fetch(PDO::FETCH_ASSOC);
                     container.style.opacity = '1';
                     container.style.transform = 'translateY(0)';
                 }, index * 200);
-            });
-        });
+            });     });
     </script>
     <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
     <script>
@@ -1311,8 +1394,7 @@ $mercadopago = $stmt->fetch(PDO::FETCH_ASSOC);
             if (event.ctrlKey && event.key === "U") {
                 event.preventDefault();
                 window.close();
-            }
-        });
+            }     });
     </script>
 </body>
 

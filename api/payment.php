@@ -26,7 +26,7 @@ try {
     $stmt = $pdo->query("SELECT active FROM gateway LIMIT 1");
     $activeGateway = $stmt->fetchColumn();
 
-    if (!in_array($activeGateway, ['ondapay', 'mercadopago'])) {
+    if (!in_array($activeGateway, ['ondapay', 'mercadopago', 'velana'])) {
         throw new Exception('Gateway não configurado ou não suportado.');
     }
 
@@ -165,11 +165,6 @@ try {
 
         $postbackUrl = $base . '/callback/mercadopago.php';
 
-        // Log para debug
-        $logFile = __DIR__ . '/../callback/webhook_log.txt';
-        $logMsg = date('d/m/Y H:i:s') . " - Criando Pagamento MP. Notification URL: " . $postbackUrl . PHP_EOL;
-        file_put_contents($logFile, $logMsg, FILE_APPEND);
-
         $payload = [
             "transaction_amount" => (float) $amount,
             "description" => "Depósito " . $usuario['nome'],
@@ -203,9 +198,7 @@ try {
 
         $mpData = json_decode($response, true);
 
-        // Log de erro se necessário
         if ($httpCode !== 201 || !isset($mpData['id'], $mpData['point_of_interaction']['transaction_data']['qr_code'])) {
-            // Tenta pegar msg de erro do MP
             $msg = $mpData['message'] ?? 'Erro ao criar PIX no Mercado Pago.';
             throw new Exception($msg);
         }
@@ -234,6 +227,78 @@ try {
         echo json_encode([
             'qrcode' => $pixCopiaCola,
             'gateway' => 'mercadopago'
+        ]);
+
+    } elseif ($activeGateway === 'velana') {
+        // ===== PROCESSAR COM Velana =====
+        $stmt = $pdo->query("SELECT api_key, secret_key FROM velana LIMIT 1");
+        $velana = $stmt->fetch();
+
+        if (!$velana) {
+            throw new Exception('Credenciais Velana não encontradas.');
+        }
+
+        $postbackUrl = $base . '/callback/velana.php';
+
+        $payload = [
+            'amount' => (int) ($amount * 100), // Em centavos
+            'paymentMethod' => 'pix',
+            'postbackUrl' => $postbackUrl,
+            'customer' => [
+                'name' => $usuario['nome'],
+                'email' => $usuario['email'],
+                'document' => $cpf,
+                'phone' => '11999999999' // Campo obrigatório pela Velana, usando fixo ou do banco se existir
+            ]
+        ];
+
+        $auth = base64_encode($velana['api_key'] . ':' . $velana['secret_key']);
+
+        $ch = curl_init("https://api.velana.com.br/v1/transactions");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => [
+                "Authorization: Basic $auth",
+                "Content-Type: application/json"
+            ]
+        ]);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $pixData = json_decode($response, true);
+
+        if ($httpCode !== 200 || !isset($pixData['id']) || !isset($pixData['pix']['qrcode'])) {
+            $apiError = isset($pixData['message']) ? $pixData['message'] : 'Erro Velana: ' . $response;
+            throw new Exception('Falha ao gerar PIX Velana. ' . $apiError);
+        }
+
+        $transactionId = $pixData['id'];
+        $qrcode = $pixData['pix']['qrcode'];
+
+        // Salvar no banco
+        $stmt = $pdo->prepare("
+            INSERT INTO depositos (transactionId, user_id, nome, cpf, valor, status, qrcode, gateway, idempotency_key)
+            VALUES (:transactionId, :user_id, :nome, :cpf, :valor, 'PENDING', :qrcode, 'velana', :idempotency_key)
+        ");
+
+        $stmt->execute([
+            ':transactionId' => $transactionId,
+            ':user_id' => $usuario_id,
+            ':nome' => $usuario['nome'],
+            ':cpf' => $cpf,
+            ':valor' => $amount,
+            ':qrcode' => $qrcode,
+            ':idempotency_key' => $external_id
+        ]);
+
+        $_SESSION['transactionId'] = $transactionId;
+
+        echo json_encode([
+            'qrcode' => $qrcode,
+            'gateway' => 'velana'
         ]);
     }
 
