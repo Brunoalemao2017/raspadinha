@@ -16,22 +16,24 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $nomeSite;?> - Raspadinhas</title>
-    
+    <title><?php echo $nomeSite; ?> - Raspadinhas</title>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/style/globalStyles.css?id=<?= time(); ?>">
-    
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.8/dist/notiflix-aio-3.2.8.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/notiflix@3.2.8/src/notiflix.min.css" rel="stylesheet">
@@ -242,14 +244,19 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .loading-skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
         }
 
         @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         /* Improved Filter Bar */
@@ -363,29 +370,29 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             .page-title {
                 font-size: 2rem;
             }
-            
+
             .stats-bar {
                 gap: 1.5rem;
                 flex-wrap: wrap;
             }
-            
+
             .stat-number {
                 font-size: 1.5rem;
             }
-            
+
             .cartelas-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
-            
+
             .cartela-content {
                 padding: 1rem;
             }
-            
+
             .filter-bar {
                 gap: 0.5rem;
             }
-            
+
             .filter-btn {
                 padding: 0.6rem 1rem;
                 font-size: 0.85rem;
@@ -396,7 +403,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             .cartelas-container {
                 padding: 0 1rem;
             }
-            
+
             .cartelas-grid {
                 grid-template-columns: 1fr;
             }
@@ -422,6 +429,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -433,17 +441,43 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             animation: fadeIn 0.6s ease-out forwards;
         }
 
-        .stagger-animation .cartela-card:nth-child(1) { animation-delay: 0.1s; }
-        .stagger-animation .cartela-card:nth-child(2) { animation-delay: 0.2s; }
-        .stagger-animation .cartela-card:nth-child(3) { animation-delay: 0.3s; }
-        .stagger-animation .cartela-card:nth-child(4) { animation-delay: 0.4s; }
-        .stagger-animation .cartela-card:nth-child(5) { animation-delay: 0.5s; }
-        .stagger-animation .cartela-card:nth-child(6) { animation-delay: 0.6s; }
+        .stagger-animation .cartela-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stagger-animation .cartela-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stagger-animation .cartela-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stagger-animation .cartela-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .stagger-animation .cartela-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .stagger-animation .cartela-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
 
         /* Sparkle animation for premium buttons */
         @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.05) rotate(2deg); opacity: 0.9; }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05) rotate(2deg);
+                opacity: 0.9;
+            }
         }
 
         .filter-btn.high.active {
@@ -451,6 +485,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
+
 <body>
     <?php include('../inc/header.php'); ?>
     <?php include('../components/modals.php'); ?>
@@ -463,14 +498,15 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                 <p class="page-subtitle">
                     Centenas de prêmios esperando por você! Raspe e ganhe na hora com PIX instantâneo.
                 </p>
-                
+
                 <div class="stats-bar">
                     <div class="stat-item">
                         <span class="stat-number"><?= count($cartelas); ?></span>
                         <span class="stat-label">Raspadinhas</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">R$ <?= number_format(array_sum(array_column($cartelas, 'maior_premio')), 0, ',', '.'); ?></span>
+                        <span class="stat-number">R$
+                            <?= number_format(array_sum(array_column($cartelas, 'maior_premio')), 0, ',', '.'); ?></span>
                         <span class="stat-label">Em Prêmios</span>
                     </div>
                     <div class="stat-item">
@@ -479,7 +515,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </div>
-            
+
             <!-- Enhanced Filter Bar -->
             <div class="filter-bar fade-in">
                 <button class="filter-btn active" data-filter="all">
@@ -510,18 +546,14 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <?php else: ?>
                 <div class="cartelas-grid stagger-animation" id="cartelasGrid">
                     <?php foreach ($cartelas as $c): ?>
-                        <a href="/raspadinhas/show.php?id=<?= $c['id']; ?>" 
-                           class="cartela-card" 
-                           data-price="<?= $c['valor']; ?>"
-                           data-aos="fade-up">
-                            
+                        <a href="/raspadinhas/show.php?id=<?= $c['id']; ?>&play=1" class="cartela-card"
+                            data-price="<?= $c['valor']; ?>" data-aos="fade-up">
+
                             <div style="position: relative; overflow: hidden;">
                                 <img src="<?= htmlspecialchars($c['banner']); ?>"
-                                     alt="Banner <?= htmlspecialchars($c['nome']); ?>"
-                                     class="cartela-image" 
-                                     loading="lazy"
-                                     onerror="this.src='/assets/img/placeholder-raspadinha.jpg'">
-                                
+                                    alt="Banner <?= htmlspecialchars($c['nome']); ?>" class="cartela-image" loading="lazy"
+                                    onerror="this.src='/assets/img/placeholder-raspadinha.jpg'">
+
                                 <div class="price-badge">
                                     <i class="bi bi-tag-fill"></i>
                                     R$ <?= number_format($c['valor'], 2, ',', '.'); ?>
@@ -534,7 +566,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                                         <i class="bi bi-lightning-fill"></i>
                                         PIX Instantâneo
                                     </span>
-                                    <?php if($c['maior_premio'] >= 1000): ?>
+                                    <?php if ($c['maior_premio'] >= 1000): ?>
                                         <span class="feature-tag">
                                             <i class="bi bi-star-fill"></i>
                                             Premium
@@ -545,7 +577,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                                 <h2 class="cartela-title">
                                     <?= htmlspecialchars($c['nome']); ?>
                                 </h2>
-                                
+
                                 <p class="cartela-description">
                                     <?= htmlspecialchars($c['descricao']); ?>
                                 </p>
@@ -582,7 +614,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <?php include('../inc/footer.php'); ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Filter functionality
             const filterBtns = document.querySelectorAll('.filter-btn');
             const cartelasGrid = document.getElementById('cartelasGrid');
@@ -595,12 +627,12 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                     btn.classList.add('active');
 
                     const filter = btn.dataset.filter;
-                    
+
                     cartelas.forEach(cartela => {
                         const price = parseFloat(cartela.dataset.price);
                         let show = false;
 
-                        switch(filter) {
+                        switch (filter) {
                             case 'all':
                                 show = true;
                                 break;
@@ -634,7 +666,7 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             // Image lazy loading fallback
             const images = document.querySelectorAll('.cartela-image');
             images.forEach(img => {
-                img.addEventListener('error', function() {
+                img.addEventListener('error', function () {
                     this.src = '/assets/img/placeholder-raspadinha.jpg';
                 });
             });
@@ -700,4 +732,5 @@ $cartelas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         });
     </script>
 </body>
+
 </html>
