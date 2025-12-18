@@ -255,11 +255,19 @@ try {
             'amount' => (int) ($amount * 100), // Em centavos
             'paymentMethod' => 'pix',
             'postbackUrl' => $postbackUrl,
+            'items' => [
+                [
+                    'title' => 'Depósito Raspadinha',
+                    'unitPrice' => (int) ($amount * 100),
+                    'quantity' => 1,
+                    'tangible' => false
+                ]
+            ],
             'customer' => [
                 'name' => $usuario['nome'],
                 'email' => $usuario['email'],
                 'document' => $cpf,
-                'phone' => '11999999999' // Campo obrigatório pela Velana, usando fixo ou do banco se existir
+                'phone' => '11999999999'
             ]
         ];
 
