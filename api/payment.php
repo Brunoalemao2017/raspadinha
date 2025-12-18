@@ -279,7 +279,10 @@ try {
             'customer' => [
                 'name' => $usuario['nome'],
                 'email' => $usuario['email'],
-                'document' => $cpf,
+                'document' => [
+                    'type' => 'cpf',
+                    'number' => $cpf
+                ],
                 'phone' => '11999999999'
             ]
         ];
