@@ -18,9 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $amount = isset($_POST['amount']) ? floatval(str_replace(',', '.', $_POST['amount'])) : 0;
 $cpf = isset($_POST['cpf']) ? preg_replace('/\D/', '', $_POST['cpf']) : '';
 
-if ($amount <= 0 || strlen($cpf) !== 11) {
+// Log para debug
+error_log("Payment Request - Amount: $amount, CPF: $cpf, CPF Length: " . strlen($cpf));
+
+if ($amount <= 0) {
+    ob_clean();
     http_response_code(400);
-    echo json_encode(['error' => 'Dados inválidos']);
+    echo json_encode(['error' => 'Valor inválido. Mínimo R$ 0,01']);
+    ob_end_flush();
+    exit;
+}
+
+if (strlen($cpf) !== 11) {
+    ob_clean();
+    http_response_code(400);
+    echo json_encode(['error' => 'CPF inválido. Deve conter 11 dígitos.']);
+    ob_end_flush();
     exit;
 }
 
