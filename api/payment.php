@@ -280,11 +280,23 @@ try {
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
+        // Log detalhado para debug (provisório)
+        error_log("Velana Request: " . json_encode($payload));
+        error_log("Velana Response Code: " . $httpCode);
+        error_log("Velana Response Body: " . $response);
+
         $pixData = json_decode($response, true);
 
         if ($httpCode !== 200 || !isset($pixData['id']) || !isset($pixData['pix']['qrcode'])) {
-            $apiError = isset($pixData['message']) ? $pixData['message'] : 'Erro Velana: ' . $response;
-            throw new Exception('Falha ao gerar PIX Velana. ' . $apiError);
+            $msg = 'Erro desconhecido';
+            if (isset($pixData['message'])) {
+                $msg = is_array($pixData['message']) ? json_encode($pixData['message']) : $pixData['message'];
+            } elseif (isset($pixData['errors'])) {
+                $msg = json_encode($pixData['errors']);
+            } else {
+                $msg = $response;
+            }
+            throw new Exception('Falha ao gerar PIX Velana. ' . $msg);
         }
 
         $transactionId = $pixData['id'];
