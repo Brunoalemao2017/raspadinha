@@ -1,6 +1,11 @@
 <?php
 session_start();
+ob_start(); // Prevenir qualquer saída acidental de causar erro no JSON
 header('Content-Type: application/json');
+
+// Log de erros para facilitar o debug
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/payment_error.log');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -149,10 +154,13 @@ try {
 
         $_SESSION['transactionId'] = $pixData['id_transaction'];
 
+        ob_clean();
         echo json_encode([
             'qrcode' => $pixData['qrcode'],
             'gateway' => 'ondapay'
         ]);
+        ob_end_flush();
+        exit;
 
     } elseif ($activeGateway === 'mercadopago') {
         // ===== PROCESSAR COM Mercado Pago =====
@@ -224,10 +232,13 @@ try {
 
         $_SESSION['transactionId'] = $transactionId;
 
+        ob_clean();
         echo json_encode([
             'qrcode' => $pixCopiaCola,
             'gateway' => 'mercadopago'
         ]);
+        ob_end_flush();
+        exit;
 
     } elseif ($activeGateway === 'velana') {
         // ===== PROCESSAR COM Velana =====
@@ -297,15 +308,21 @@ try {
 
         $_SESSION['transactionId'] = $transactionId;
 
+        ob_clean();
         echo json_encode([
             'qrcode' => $qrcode,
             'gateway' => 'velana'
         ]);
+        ob_end_flush();
+        exit;
     }
 
 } catch (Exception $e) {
+    ob_clean();
+    error_log("Payment API Error: " . $e->getMessage());
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
+    ob_end_flush();
     exit;
 }
 ?>
