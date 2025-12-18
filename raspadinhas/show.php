@@ -34,6 +34,14 @@ $autoPlay = (isset($_GET['play']) && $_GET['play'] == '1');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $nomeSite; ?> - <?= htmlspecialchars($cartela['nome']); ?></title>
 
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo $urlSite; ?>/raspadinhas/show.php?id=<?= $id ?>">
+    <meta property="og:title" content="Raspadinha Monkey - Jogue <?= htmlspecialchars($cartela['nome']); ?>">
+    <meta property="og:description"
+        content="Tente a sorte na raspadinha <?= htmlspecialchars($cartela['nome']); ?> e ganhe até R$ <?= number_format($premios[0]['valor'], 2, ',', '.'); ?> instantaneamente!">
+    <meta property="og:image" content="<?php echo $urlSite; ?><?= $cartela['capa']; ?>">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -8,37 +8,49 @@ include('./conexao.php');
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $nomeSite;?> - Raspadinhas Online</title>
+    <title><?php echo $nomeSite; ?> - Raspadinhas Online</title>
     <meta name="description" content="Raspe e ganhe prêmios incríveis! PIX na conta instantâneo.">
-    
+
     <!-- Preload Critical Resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <!-- Styles -->
-    <link rel="stylesheet" href="assets/style/globalStyles.css?v=<?php echo time();?>"/>
-    
+    <link rel="stylesheet" href="assets/style/globalStyles.css?v=<?php echo time(); ?>" />
+
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.8/dist/notiflix-aio-3.2.8.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/notiflix@3.2.8/src/notiflix.min.css" rel="stylesheet">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="<?php echo $nomeSite;?> - Raspadinhas Online">
-    <meta property="og:description" content="Raspe e ganhe prêmios incríveis! PIX na conta instantâneo.">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<?php echo $urlSite;?>">
-    
+    <meta property="og:url" content="<?php echo $urlSite; ?>">
+    <meta property="og:title" content="Raspadinha Monkey - Ganhe Prêmios no PIX!">
+    <meta property="og:description"
+        content="A sorte está nas suas mãos! Raspe e ganhe prêmios incríveis com pagamento via PIX instantâneo.">
+    <meta property="og:image" content="<?php echo $urlSite; ?><?php echo $logoSite; ?>">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?php echo $urlSite; ?>">
+    <meta property="twitter:title" content="Raspadinha Monkey - Ganhe Prêmios no PIX!">
+    <meta property="twitter:description"
+        content="A sorte está nas suas mãos! Raspe e ganhe prêmios incríveis com pagamento via PIX instantâneo.">
+    <meta property="twitter:image" content="<?php echo $urlSite; ?><?php echo $logoSite; ?>">
+
     <style>
         /* Loading Animation */
         /* Solução definitiva para loading spinner fixo */
@@ -51,7 +63,7 @@ include('./conexao.php');
             background: #0a0a0a;
             z-index: 9999;
             transition: opacity 0.5s ease;
-            
+
             /* Centralização perfeita */
             display: grid;
             place-items: center;
@@ -74,11 +86,12 @@ include('./conexao.php');
             border: 3px solid rgba(34, 197, 94, 0.3);
             border-top-color: #fed000;
             border-radius: 50%;
-            
+
             /* Chaves para rotação sem movimento */
-            transform-origin: 50% 50%; /* Centro exato */
+            transform-origin: 50% 50%;
+            /* Centro exato */
             animation: spinFixed 1s linear infinite;
-            
+
             /* Força o elemento a manter posição */
             margin: 0;
             padding: 0;
@@ -89,6 +102,7 @@ include('./conexao.php');
             from {
                 transform: rotate(0deg);
             }
+
             to {
                 transform: rotate(360deg);
             }
@@ -102,7 +116,7 @@ include('./conexao.php');
             background: conic-gradient(#22c55e, rgba(34, 197, 94, 0.3));
             animation: rotateSimple 1s linear infinite;
             position: relative;
-            
+
             /* Máscara para criar o efeito de spinner */
             mask: radial-gradient(circle at center, transparent 18px, black 21px);
             -webkit-mask: radial-gradient(circle at center, transparent 18px, black 21px);
@@ -118,13 +132,13 @@ include('./conexao.php');
         .loading-spinner-modern {
             width: 50px;
             height: 50px;
-            background: 
+            background:
                 conic-gradient(from 0deg, transparent, #22c55e, transparent),
                 conic-gradient(from 180deg, transparent, rgba(34, 197, 94, 0.3), transparent);
             border-radius: 50%;
             animation: rotateModern 1s linear infinite;
             position: relative;
-            
+
             /* Efeito de máscara para criar o anel */
             mask: radial-gradient(circle, transparent 17px, black 20px);
             -webkit-mask: radial-gradient(circle, transparent 17px, black 20px);
@@ -147,54 +161,63 @@ include('./conexao.php');
             margin: 0;
             padding: 0;
         }
-        
+
         /* Smooth scroll */
         html {
             scroll-behavior: smooth;
         }
-        
+
         /* Parallax effect */
         .parallax-element {
             transform: translateZ(0);
             will-change: transform;
         }
-        
+
         /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         .animate-fade-in-up {
             animation: fadeInUp 0.6s ease-out forwards;
         }
-        
+
         /* Floating elements animation */
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
-        
+
         @keyframes floating {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
-        
+
         /* Glowing effect */
         .glow {
             box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
         }
-        
+
         .glow:hover {
             box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
         }
     </style>
 </head>
+
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
@@ -209,9 +232,9 @@ include('./conexao.php');
         <?php include('./components/ganhos.php'); ?>
 
         <?php include('./components/chamada.php'); ?>
-    
+
         <?php include('./components/modals.php'); ?>
-        
+
         <?php include('./components/testimonials.php'); ?>
     </main>
 
@@ -219,7 +242,7 @@ include('./conexao.php');
 
     <script>
         // Loading screen
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const loadingScreen = document.getElementById('loadingScreen');
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
@@ -241,7 +264,7 @@ include('./conexao.php');
         }, observerOptions);
 
         // Observe elements for animation
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const elementsToAnimate = document.querySelectorAll('.step-item, .game-category, .prize-item');
             elementsToAnimate.forEach(el => {
                 observer.observe(el);
@@ -252,7 +275,7 @@ include('./conexao.php');
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const heroElements = document.querySelectorAll('.parallax-element');
-            
+
             heroElements.forEach(element => {
                 const speed = element.dataset.speed || 0.5;
                 element.style.transform = `translateY(${scrolled * speed}px)`;
@@ -260,7 +283,7 @@ include('./conexao.php');
         });
 
         // Add floating animation to certain elements
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const floatingElements = document.querySelectorAll('.hero-visuals .gaming-item');
             floatingElements.forEach((el, index) => {
                 el.style.animationDelay = `${index * 0.5}s`;
@@ -309,7 +332,7 @@ include('./conexao.php');
         });
 
         // Dynamic copyright year
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const currentYear = new Date().getFullYear();
             const copyrightElements = document.querySelectorAll('.footer-description');
             if (copyrightElements.length > 0) {
@@ -318,7 +341,7 @@ include('./conexao.php');
         });
 
         // Add glow effect to interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const glowElements = document.querySelectorAll('.btn-register, .hero-cta, .game-btn');
             glowElements.forEach(el => {
                 el.classList.add('glow');
@@ -341,7 +364,7 @@ include('./conexao.php');
     <!-- Performance and Analytics -->
     <script>
         // Performance monitoring
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             if ('performance' in window) {
                 const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
                 console.log(`Página carregada em ${loadTime}ms`);
@@ -349,7 +372,7 @@ include('./conexao.php');
         });
 
         // Error handling
-        window.addEventListener('error', function(e) {
+        window.addEventListener('error', function (e) {
             console.error('Erro na página:', e.error);
         });
 
@@ -372,4 +395,5 @@ include('./conexao.php');
         }
     </script>
 </body>
+
 </html>
