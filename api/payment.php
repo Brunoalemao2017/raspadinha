@@ -252,7 +252,8 @@ try {
             ]
         ];
 
-        $auth = base64_encode($velana['api_key'] . ':' . $velana['secret_key']);
+        // A autenticação da Velana usa a SECRET_KEY com ":x" no final antes do base64
+        $auth = base64_encode($velana['secret_key'] . ':x');
 
         $ch = curl_init("https://api.velana.com.br/v1/transactions");
         curl_setopt_array($ch, [
