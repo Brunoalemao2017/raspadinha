@@ -24,6 +24,10 @@ try {
     if ($count == 0) {
         $pdo->exec("INSERT INTO velana (api_key, secret_key) VALUES ('', '')");
     }
+
+    // Corrigir coluna 'active' da tabela 'gateway' para aceitar 'velana'
+    // Se for ENUM, transformamos em VARCHAR para evitar o erro de truncamento
+    $pdo->exec("ALTER TABLE gateway MODIFY COLUMN active VARCHAR(50)");
 } catch (Exception $e) {
 }
 
