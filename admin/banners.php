@@ -1100,7 +1100,7 @@ $nome = $nome ? explode(' ', $nome)[0] : null;
                     <div class="upload-subtitle">Formatos aceitos: JPG, PNG (máx. 5MB)</div>
                 </div>
 
-                <form method="POST" enctype="multipart/form-data" style="display: none;">
+                <form method="POST" enctype="multipart/form-data" id="addBannerForm" style="display: none;">
                     <input type="file" name="banner_img" accept="image/jpeg,image/png,image/jpg" id="banner-upload">
                     <input type="hidden" name="adicionar_banner" value="1">
                 </form>
@@ -1295,21 +1295,32 @@ $nome = $nome ? explode(' ', $nome)[0] : null;
 
         document.getElementById('banner-upload').addEventListener('change', function () {
             if (this.files && this.files[0]) {
+                const file = this.files[0];
                 const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-                if (!allowedTypes.includes(this.files[0].type)) {
+
+                // Validate file type
+                if (!allowedTypes.includes(file.type)) {
                     Notiflix.Notify.failure('Formato de arquivo inválido! Use apenas JPG ou PNG.');
                     this.value = '';
                     return;
                 }
 
-                if (this.files[0].size > 5 * 1024 * 1024) {
+                // Validate file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
                     Notiflix.Notify.failure('Arquivo muito grande! Tamanho máximo: 5MB');
                     this.value = '';
                     return;
                 }
 
+                // Show loading and submit form
                 Notiflix.Loading.circle('Enviando banner...');
-                this.closest('form').submit();
+                const form = document.getElementById('addBannerForm');
+                if (form) {
+                    form.submit();
+                } else {
+                    Notiflix.Loading.remove();
+                    Notiflix.Notify.failure('Erro ao enviar formulário. Tente novamente.');
+                }
             }
         });
 
