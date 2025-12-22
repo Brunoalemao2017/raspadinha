@@ -503,37 +503,6 @@ if (isset($_SESSION['usuario_id'])) {
         position: relative;
     }
 
-    /* Christmas Hat on Logo */
-    .logo::before {
-        content: '';
-        position: absolute;
-        top: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 25px solid transparent;
-        border-right: 25px solid transparent;
-        border-bottom: 30px solid #D42426;
-        z-index: 10;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    /* White pom-pom on top of hat */
-    .logo::after {
-        content: '';
-        position: absolute;
-        top: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 12px;
-        height: 12px;
-        background: white;
-        border-radius: 50%;
-        z-index: 11;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
     .logo:hover {
         transform: scale(1.05);
     }
@@ -546,21 +515,6 @@ if (isset($_SESSION['usuario_id'])) {
         transition: all 0.3s ease;
         position: relative;
         z-index: 5;
-    }
-
-    /* White trim at bottom of hat */
-    .logo-image::before {
-        content: '';
-        position: absolute;
-        top: -5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% + 10px);
-        height: 8px;
-        background: white;
-        border-radius: 4px;
-        z-index: 9;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .logo-image:hover {

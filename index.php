@@ -53,54 +53,78 @@ include('./conexao.php');
     <meta property="twitter:image" content="<?php echo $urlSite; ?><?php echo $logoSite; ?>">
 
     <style>
-        /* Loading Animation - Premium Christmas Theme */
+        /* Modern Premium Loading Screen */
         .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0505 50%, #0a0a0a 100%);
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
             z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
+            gap: 2.5rem;
+            overflow: hidden;
         }
 
-        /* Logo Animation */
+        /* Animated Background Gradient */
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center,
+                    rgba(254, 208, 0, 0.05) 0%,
+                    transparent 50%);
+            animation: rotateGradient 10s linear infinite;
+        }
+
+        @keyframes rotateGradient {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Logo Container with Glow Effect */
         .loading-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #D42426, #8D0801);
-            border-radius: 20px;
+            position: relative;
+            width: 120px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            color: #FFD700;
-            box-shadow:
-                0 0 40px rgba(212, 36, 38, 0.4),
-                0 0 80px rgba(212, 36, 38, 0.2);
             animation: logoFloat 3s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
+            z-index: 2;
         }
 
         .loading-logo::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.1),
-                    transparent);
-            animation: shine 3s ease-in-out infinite;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle,
+                    rgba(254, 208, 0, 0.3) 0%,
+                    rgba(254, 208, 0, 0.1) 50%,
+                    transparent 70%);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(254, 208, 0, 0.5));
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes logoFloat {
@@ -111,33 +135,39 @@ include('./conexao.php');
             }
 
             50% {
-                transform: translateY(-10px) scale(1.05);
+                transform: translateY(-15px) scale(1.05);
             }
         }
 
-        @keyframes shine {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-            }
+        @keyframes pulse {
 
+            0%,
             100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
             }
         }
 
-        /* Spinner Container */
+        /* Modern Spinner */
         .loading-spinner-container {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
+            z-index: 2;
         }
 
         .loading-spinner {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: 100%;
             position: relative;
         }
 
+        /* Outer Ring */
         .loading-spinner::before {
             content: '';
             position: absolute;
@@ -145,25 +175,26 @@ include('./conexao.php');
             left: 0;
             width: 100%;
             height: 100%;
-            border: 4px solid rgba(212, 36, 38, 0.2);
-            border-top-color: #D42426;
-            border-right-color: #FFD700;
+            border: 4px solid transparent;
+            border-top-color: #fed000;
+            border-right-color: #fed000;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
         }
 
+        /* Inner Ring */
         .loading-spinner::after {
             content: '';
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: calc(100% - 20px);
-            height: calc(100% - 20px);
-            border: 3px solid rgba(255, 215, 0, 0.2);
-            border-bottom-color: #FFD700;
-            border-left-color: #D42426;
+            top: 12px;
+            left: 12px;
+            width: calc(100% - 24px);
+            height: calc(100% - 24px);
+            border: 3px solid transparent;
+            border-bottom-color: rgba(254, 208, 0, 0.5);
+            border-left-color: rgba(254, 208, 0, 0.5);
             border-radius: 50%;
-            animation: spin 1.5s linear infinite reverse;
+            animation: spin 1.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite reverse;
         }
 
         @keyframes spin {
@@ -176,118 +207,171 @@ include('./conexao.php');
             }
         }
 
-        /* Loading Text */
+        /* Loading Text with Gradient */
         .loading-text {
             color: #ffffff;
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.75rem;
+            font-weight: 800;
             text-align: center;
-            animation: pulse 2s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            background: linear-gradient(135deg, #ffffff 0%, #fed000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textPulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
         }
 
         .loading-subtext {
             color: #9ca3af;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-align: center;
-            margin-top: -1rem;
+            margin-top: -1.5rem;
+            font-weight: 500;
+            animation: fadeInOut 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
         }
 
-        @keyframes pulse {
+        @keyframes textPulse {
 
             0%,
             100% {
                 opacity: 1;
+                transform: scale(1);
             }
 
             50% {
-                opacity: 0.6;
+                opacity: 0.8;
+                transform: scale(1.02);
             }
         }
 
-        /* Christmas Decorations */
-        .loading-decoration {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.3;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .loading-decoration:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .loading-decoration:nth-child(2) {
-            top: 15%;
-            right: 15%;
-            animation-delay: 0.5s;
-        }
-
-        .loading-decoration:nth-child(3) {
-            bottom: 20%;
-            left: 15%;
-            animation-delay: 1s;
-        }
-
-        .loading-decoration:nth-child(4) {
-            bottom: 15%;
-            right: 10%;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes float {
+        @keyframes fadeInOut {
 
             0%,
             100% {
-                transform: translateY(0) rotate(0deg);
+                opacity: 0.6;
             }
 
             50% {
-                transform: translateY(-20px) rotate(10deg);
+                opacity: 1;
             }
         }
 
-        /* Alternativa ainda mais simples usando apenas border-image */
-        .loading-spinner-simple {
-            width: 50px;
-            height: 50px;
+        /* Floating Particles */
+        .loading-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(254, 208, 0, 0.6);
             border-radius: 50%;
-            background: conic-gradient(#22c55e, rgba(34, 197, 94, 0.3));
-            animation: rotateSimple 1s linear infinite;
-            position: relative;
-
-            /* Máscara para criar o efeito de spinner */
-            mask: radial-gradient(circle at center, transparent 18px, black 21px);
-            -webkit-mask: radial-gradient(circle at center, transparent 18px, black 21px);
+            animation: floatParticle 4s ease-in-out infinite;
+            z-index: 1;
         }
 
-        @keyframes rotateSimple {
-            to {
-                transform: rotate(360deg);
-            }
+        .loading-particle:nth-child(1) {
+            top: 20%;
+            left: 15%;
+            animation-delay: 0s;
+            animation-duration: 3s;
         }
 
-        /* Versão com CSS puro - mais moderna */
-        .loading-spinner-modern {
-            width: 50px;
-            height: 50px;
-            background:
-                conic-gradient(from 0deg, transparent, #22c55e, transparent),
-                conic-gradient(from 180deg, transparent, rgba(34, 197, 94, 0.3), transparent);
-            border-radius: 50%;
-            animation: rotateModern 1s linear infinite;
-            position: relative;
-
-            /* Efeito de máscara para criar o anel */
-            mask: radial-gradient(circle, transparent 17px, black 20px);
-            -webkit-mask: radial-gradient(circle, transparent 17px, black 20px);
+        .loading-particle:nth-child(2) {
+            top: 30%;
+            right: 20%;
+            animation-delay: 0.5s;
+            animation-duration: 4s;
         }
 
-        @keyframes rotateModern {
+        .loading-particle:nth-child(3) {
+            bottom: 25%;
+            left: 25%;
+            animation-delay: 1s;
+            animation-duration: 3.5s;
+        }
+
+        .loading-particle:nth-child(4) {
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 1.5s;
+            animation-duration: 4.5s;
+        }
+
+        .loading-particle:nth-child(5) {
+            top: 50%;
+            left: 10%;
+            animation-delay: 2s;
+            animation-duration: 3.8s;
+        }
+
+        .loading-particle:nth-child(6) {
+            top: 60%;
+            right: 12%;
+            animation-delay: 2.5s;
+            animation-duration: 4.2s;
+        }
+
+        @keyframes floatParticle {
+
+            0%,
             100% {
-                transform: rotate(360deg);
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-30px) translateX(20px) scale(1.5);
+                opacity: 0.8;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-60px) translateX(-20px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Progress Bar */
+        .loading-progress {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #fed000 0%, #ffa500 100%);
+            border-radius: 2px;
+            animation: progressBar 2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(254, 208, 0, 0.5);
+        }
+
+        @keyframes progressBar {
+            0% {
+                width: 0%;
+            }
+
+            50% {
+                width: 70%;
+            }
+
+            100% {
+                width: 100%;
             }
         }
 
@@ -361,23 +445,38 @@ include('./conexao.php');
 </head>
 
 <body>
-    <!-- Premium Loading Screen -->
+    <!-- Modern Premium Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-decoration">🎄</div>
-        <div class="loading-decoration">🎁</div>
-        <div class="loading-decoration">⭐</div>
-        <div class="loading-decoration">🔔</div>
+        <!-- Floating Particles -->
+        <div class="loading-particle"></div>
+        <div class="loading-particle"></div>
+        <div class="loading-particle"></div>
+        <div class="loading-particle"></div>
+        <div class="loading-particle"></div>
+        <div class="loading-particle"></div>
 
+        <!-- Logo with Glow Effect -->
         <div class="loading-logo">
-            🎅
+            <?php if ($logoSite && file_exists($_SERVER['DOCUMENT_ROOT'] . $logoSite)): ?>
+                <img src="<?= htmlspecialchars($logoSite) ?>?v=<?= time() ?>" alt="<?= htmlspecialchars($nomeSite) ?>">
+            <?php else: ?>
+                <div style="font-size: 3rem; color: #fed000;">🎰</div>
+            <?php endif; ?>
         </div>
 
+        <!-- Modern Spinner -->
         <div class="loading-spinner-container">
             <div class="loading-spinner"></div>
         </div>
 
+        <!-- Loading Text -->
         <div class="loading-text">Carregando...</div>
-        <div class="loading-subtext">Preparando a magia do Natal 🎄</div>
+        <div class="loading-subtext">Preparando sua experiência</div>
+
+        <!-- Progress Bar -->
+        <div class="loading-progress">
+            <div class="loading-progress-bar"></div>
+        </div>
     </div>
 
     <?php include('./inc/header.php'); ?>
