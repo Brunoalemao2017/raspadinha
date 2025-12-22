@@ -1,27 +1,32 @@
-/* Christmas Theme Overrides */
+/* Christmas Theme Overrides - Premium Edition */
 
 :root {
-    --christmas-red: #D42426;
-    --christmas-green: #146B3A;
+    --christmas-red: #E63946;
+    --christmas-dark-red: #9B2226;
+    --christmas-green: #2D6A4F;
+    --christmas-dark-green: #1B4332;
     --christmas-gold: #FFD700;
-    --christmas-snow: #FFFFFF;
+    --christmas-snow: #F8F9FA;
+    --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    --red-gradient: linear-gradient(135deg, #D90429 0%, #8D0801 100%);
 }
 
-/* Snowflake Animation */
+/* Snowflake Animation - Refined */
 .snowflake {
     position: fixed;
     top: -10px;
     z-index: 9999;
-    color: #FFF;
-    text-shadow: 0 0 5px #000;
-    font-size: 1em;
-    font-family: Arial, sans-serif;
+    color: var(--christmas-snow);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+    font-size: 1.2em;
+    font-family: 'Arial', sans-serif;
     user-select: none;
     pointer-events: none;
     animation-name: fall, sway;
-    animation-duration: 10s, 3s;
+    animation-duration: 12s, 4s;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
+    opacity: 0.8;
 }
 
 @keyframes fall {
@@ -36,72 +41,106 @@
 
 @keyframes sway {
     0% {
-        transform: translateX(0px);
+        transform: translateX(0px) rotate(0deg);
     }
 
     50% {
-        transform: translateX(15px);
+        transform: translateX(20px) rotate(15deg);
     }
 
     100% {
-        transform: translateX(0px);
+        transform: translateX(0px) rotate(0deg);
     }
 }
 
-/* Decorate Header */
+/* Premium Header */
 .header {
-    border-bottom: 2px solid var(--christmas-red);
-    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(20, 0, 0, 0.95)) !important;
+    border-bottom: 2px solid;
+    border-image: var(--gold-gradient) 1;
+    background: linear-gradient(to bottom, #0a0a0a, #1a0505 90%, #2d0a0a) !important;
+    box-shadow: 0 4px 30px rgba(139, 0, 0, 0.2);
 }
 
 .nav-menu a:hover {
-    color: var(--christmas-red) !important;
+    color: var(--christmas-gold) !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .nav-menu a::after {
-    background: var(--christmas-red) !important;
+    background: var(--gold-gradient) !important;
+    height: 3px;
 }
 
-/* Buttons festive colors */
+/* Premium Buttons */
 .btn-register,
 .hero-cta,
 .game-btn {
-    background: linear-gradient(135deg, var(--christmas-red), #b91c1c) !important;
-    box-shadow: 0 4px 20px rgba(212, 36, 38, 0.4) !important;
-    border: 1px solid #ff9999 !important;
+    background: var(--red-gradient) !important;
+    border: 1px solid var(--christmas-gold) !important;
+    box-shadow: 0 0 15px rgba(217, 4, 41, 0.3) !important;
+    color: white !important;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .btn-register:hover,
 .hero-cta:hover,
 .game-btn:hover {
-    background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px var(--christmas-gold) !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4) !important;
+    border-color: #fff !important;
 }
 
-/* Add some holiday cheer to text */
+/* Shine effect for buttons */
+.btn-register::after,
+.hero-cta::after,
+.game-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: rotate(45deg);
+    transition: all 0.3s;
+    opacity: 0;
+}
+
+.btn-register:hover::after,
+.hero-cta:hover::after,
+.game-btn:hover::after {
+    opacity: 1;
+    left: -100%;
+    transition: 0.5s;
+}
+
+/* Typography Enhancements */
 .hero-subtitle {
     color: var(--christmas-red) !important;
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    text-shadow: 0 0 20px rgba(220, 20, 60, 0.6);
+    font-weight: 800;
 }
 
 .hero-title {
-    background: -webkit-linear-gradient(var(--christmas-gold), #fff);
+    background: var(--gold-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
-/* Card decorations */
+/* Card Decorations - Frozen Glass + Gold */
 .step-item,
 .game-category,
 .prize-item {
-    border-color: rgba(255, 255, 255, 0.1) !important;
-    position: relative;
-    overflow: hidden;
+    background: linear-gradient(145deg, rgba(20, 5, 5, 0.9), rgba(40, 10, 10, 0.8)) !important;
+    border: 1px solid rgba(255, 215, 0, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Add a "snow" top border to cards */
+/* Gold shimmer on top of cards */
 .step-item::before,
 .game-category::before,
 .prize-item::before {
@@ -110,54 +149,77 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, white, transparent);
-    opacity: 0.5;
+    height: 2px;
+    background: var(--gold-gradient);
+    opacity: 0.7;
 }
 
-/* Festive icons */
+.step-item:hover,
+.game-category:hover {
+    border-color: var(--christmas-gold) !important;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.15) !important;
+}
+
+/* Festive Icons */
 .step-icon,
 .game-icon {
-    border-color: var(--christmas-red) !important;
-    background: linear-gradient(145deg, rgba(20, 0, 0, 0.8), rgba(10, 0, 0, 0.9)) !important;
+    border: 2px solid var(--christmas-gold) !important;
+    background: linear-gradient(145deg, #1a0505, #2d0a0a) !important;
     color: var(--christmas-gold) !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .step-icon.active {
-    border-color: var(--christmas-gold) !important;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2) !important;
+    background: var(--gold-gradient) !important;
+    color: #4a0404 !important;
+    text-shadow: none;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4) !important;
 }
 
-/* Footer festive touch */
+/* Footer - Luxurious Dark */
 .footer {
-    border-top: 1px solid var(--christmas-red) !important;
-    background: linear-gradient(to top, #0f0f0f, #1a0505);
+    border-top: 1px solid;
+    border-image: var(--gold-gradient) 1;
+    background: linear-gradient(to top, #050101, #1a0505);
+}
+
+.footer-brand span {
+    color: var(--christmas-gold) !important;
+}
+
+/* Loading Spinner - Holiday Candy Cane */
+.loading-spinner {
+    border-width: 4px;
+    border-style: solid;
+    border-color: var(--christmas-red) var(--christmas-snow) var(--christmas-green) var(--christmas-snow);
 }
 
 .loading-spinner::before {
-    border-color: rgba(212, 36, 38, 0.3) !important;
-    border-top-color: var(--christmas-red) !important;
+    display: none;
+    /* Reset prev style */
 }
 
-.loading-spinner-simple {
-    background: conic-gradient(var(--christmas-red), rgba(212, 36, 38, 0.3)) !important;
-}
-
-/* Add a garland effect to the top of the page */
+/* Modern Garland Strip at Top */
 body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 10px;
-    background: repeating-linear-gradient(45deg,
-            var(--christmas-red),
-            var(--christmas-red) 10px,
-            var(--christmas-green) 10px,
-            var(--christmas-green) 20px,
-            var(--christmas-gold) 20px,
-            var(--christmas-gold) 30px);
-    z-index: 99999;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    background: repeating-linear-gradient(-45deg,
+            #D90429,
+            #D90429 15px,
+            #FFD700 15px,
+            #FFD700 20px,
+            #2D6A4F 20px,
+            #2D6A4F 35px,
+            #FFD700 35px,
+            #FFD700 40px);
+    height: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Scrollbar festive */
+::-webkit-scrollbar-thumb {
+    background: var(--christmas-dark-red);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
 }
