@@ -23,6 +23,7 @@ include('./conexao.php');
 
     <!-- Styles -->
     <link rel="stylesheet" href="assets/style/globalStyles.css?v=<?php echo time(); ?>" />
+    <link rel="stylesheet" href="assets/style/christmas.css?v=<?php echo time(); ?>" />
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -357,8 +358,26 @@ include('./conexao.php');
         }
 
         // Console welcome message
-        console.log('%c🎯 RaspaGreen - Bem-vindo!', 'color: #fed000; font-size: 16px; font-weight: bold;');
-        console.log('%cSistema carregado com sucesso!', 'color: #16a34a; font-size: 12px;');
+        console.log('%c� RaspaMonkey - Feliz Natal!', 'color: #fed000; font-size: 16px; font-weight: bold;');
+        console.log('%cSistema natalino ativado!', 'color: #D42426; font-size: 12px;');
+
+        // Christmas Snowflakes
+        document.addEventListener('DOMContentLoaded', function() {
+            const snowflakeCount = 50;
+            const body = document.body;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = (Math.random() * 5) + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+                body.appendChild(snowflake);
+            }
+        });
     </script>
 
     <!-- Performance and Analytics -->

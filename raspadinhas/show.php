@@ -53,6 +53,7 @@ $autoPlay = (isset($_GET['play']) && $_GET['play'] == '1');
 
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/style/globalStyles.css?id=<?= time(); ?>">
+    <link rel="stylesheet" href="/assets/style/christmas.css?id=<?= time(); ?>">
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.8/dist/notiflix-aio-3.2.8.min.js"></script>
@@ -1088,6 +1089,21 @@ $autoPlay = (isset($_GET['play']) && $_GET['play'] == '1');
         document.addEventListener('DOMContentLoaded', function () {
             console.log('%c🎮 Raspadinha carregada!', 'color: #fed000; font-size: 16px; font-weight: bold;');
             console.log(`Cartela: ${<?= json_encode($cartela['nome']); ?>}`);
+
+            // Christmas Snowflakes
+            const snowflakeCount = 30; // Fewer snowflakes on game page to avoid distraction
+            const body = document.body;
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = (Math.random() * 5) + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflake.style.opacity = Math.random() * 0.5 + 0.2;
+                body.appendChild(snowflake);
+            }
 
             <?php if ($autoPlay): ?>
                 // Auto click purchase button after a short delay

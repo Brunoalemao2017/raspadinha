@@ -1,0 +1,163 @@
+/* Christmas Theme Overrides */
+
+:root {
+    --christmas-red: #D42426;
+    --christmas-green: #146B3A;
+    --christmas-gold: #FFD700;
+    --christmas-snow: #FFFFFF;
+}
+
+/* Snowflake Animation */
+.snowflake {
+    position: fixed;
+    top: -10px;
+    z-index: 9999;
+    color: #FFF;
+    text-shadow: 0 0 5px #000;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    user-select: none;
+    pointer-events: none;
+    animation-name: fall, sway;
+    animation-duration: 10s, 3s;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+}
+
+@keyframes fall {
+    0% {
+        top: -10%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes sway {
+    0% {
+        transform: translateX(0px);
+    }
+
+    50% {
+        transform: translateX(15px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+/* Decorate Header */
+.header {
+    border-bottom: 2px solid var(--christmas-red);
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.95), rgba(20, 0, 0, 0.95)) !important;
+}
+
+.nav-menu a:hover {
+    color: var(--christmas-red) !important;
+}
+
+.nav-menu a::after {
+    background: var(--christmas-red) !important;
+}
+
+/* Buttons festive colors */
+.btn-register,
+.hero-cta,
+.game-btn {
+    background: linear-gradient(135deg, var(--christmas-red), #b91c1c) !important;
+    box-shadow: 0 4px 20px rgba(212, 36, 38, 0.4) !important;
+    border: 1px solid #ff9999 !important;
+}
+
+.btn-register:hover,
+.hero-cta:hover,
+.game-btn:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px var(--christmas-gold) !important;
+}
+
+/* Add some holiday cheer to text */
+.hero-subtitle {
+    color: var(--christmas-red) !important;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.hero-title {
+    background: -webkit-linear-gradient(var(--christmas-gold), #fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Card decorations */
+.step-item,
+.game-category,
+.prize-item {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add a "snow" top border to cards */
+.step-item::before,
+.game-category::before,
+.prize-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, white, transparent);
+    opacity: 0.5;
+}
+
+/* Festive icons */
+.step-icon,
+.game-icon {
+    border-color: var(--christmas-red) !important;
+    background: linear-gradient(145deg, rgba(20, 0, 0, 0.8), rgba(10, 0, 0, 0.9)) !important;
+    color: var(--christmas-gold) !important;
+}
+
+.step-icon.active {
+    border-color: var(--christmas-gold) !important;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Footer festive touch */
+.footer {
+    border-top: 1px solid var(--christmas-red) !important;
+    background: linear-gradient(to top, #0f0f0f, #1a0505);
+}
+
+.loading-spinner::before {
+    border-color: rgba(212, 36, 38, 0.3) !important;
+    border-top-color: var(--christmas-red) !important;
+}
+
+.loading-spinner-simple {
+    background: conic-gradient(var(--christmas-red), rgba(212, 36, 38, 0.3)) !important;
+}
+
+/* Add a garland effect to the top of the page */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: repeating-linear-gradient(45deg,
+            var(--christmas-red),
+            var(--christmas-red) 10px,
+            var(--christmas-green) 10px,
+            var(--christmas-green) 20px,
+            var(--christmas-gold) 20px,
+            var(--christmas-gold) 30px);
+    z-index: 99999;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
