@@ -53,28 +53,89 @@ include('./conexao.php');
     <meta property="twitter:image" content="<?php echo $urlSite; ?><?php echo $logoSite; ?>">
 
     <style>
-        /* Loading Animation */
-        /* Solução definitiva para loading spinner fixo */
+        /* Loading Animation - Premium Christmas Theme */
         .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0505 50%, #0a0a0a 100%);
             z-index: 9999;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
 
-            /* Centralização perfeita */
-            display: grid;
-            place-items: center;
+        /* Logo Animation */
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #D42426, #8D0801);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #FFD700;
+            box-shadow:
+                0 0 40px rgba(212, 36, 38, 0.4),
+                0 0 80px rgba(212, 36, 38, 0.2);
+            animation: logoFloat 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        /* Spinner Container */
+        .loading-spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
+            width: 80px;
+            height: 80px;
             position: relative;
-            /* Remove todas as propriedades de borda do elemento principal */
         }
 
         .loading-spinner::before {
@@ -84,28 +145,107 @@ include('./conexao.php');
             left: 0;
             width: 100%;
             height: 100%;
-            border: 3px solid rgba(34, 197, 94, 0.3);
-            border-top-color: #fed000;
+            border: 4px solid rgba(212, 36, 38, 0.2);
+            border-top-color: #D42426;
+            border-right-color: #FFD700;
             border-radius: 50%;
-
-            /* Chaves para rotação sem movimento */
-            transform-origin: 50% 50%;
-            /* Centro exato */
-            animation: spinFixed 1s linear infinite;
-
-            /* Força o elemento a manter posição */
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes spinFixed {
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            border: 3px solid rgba(255, 215, 0, 0.2);
+            border-bottom-color: #FFD700;
+            border-left-color: #D42426;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite reverse;
+        }
+
+        @keyframes spin {
             from {
                 transform: rotate(0deg);
             }
 
             to {
                 transform: rotate(360deg);
+            }
+        }
+
+        /* Loading Text */
+        .loading-text {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .loading-subtext {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: -1rem;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Christmas Decorations */
+        .loading-decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .loading-decoration:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .loading-decoration:nth-child(2) {
+            top: 15%;
+            right: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .loading-decoration:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 1s;
+        }
+
+        .loading-decoration:nth-child(4) {
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
             }
         }
 
@@ -153,6 +293,7 @@ include('./conexao.php');
 
         .hidden {
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
 
@@ -220,9 +361,23 @@ include('./conexao.php');
 </head>
 
 <body>
-    <!-- Loading Screen -->
+    <!-- Premium Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-spinner"></div>
+        <div class="loading-decoration">🎄</div>
+        <div class="loading-decoration">🎁</div>
+        <div class="loading-decoration">⭐</div>
+        <div class="loading-decoration">🔔</div>
+
+        <div class="loading-logo">
+            🎅
+        </div>
+
+        <div class="loading-spinner-container">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <div class="loading-text">Carregando...</div>
+        <div class="loading-subtext">Preparando a magia do Natal 🎄</div>
     </div>
 
     <?php include('./inc/header.php'); ?>
@@ -362,10 +517,10 @@ include('./conexao.php');
         console.log('%cSistema natalino ativado!', 'color: #D42426; font-size: 12px;');
 
         // Christmas Snowflakes
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const snowflakeCount = 50;
             const body = document.body;
-            
+
             for (let i = 0; i < snowflakeCount; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.className = 'snowflake';
