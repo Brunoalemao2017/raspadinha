@@ -32,14 +32,24 @@ if (isset($_POST['salvar_config'])) {
                 mkdir($uploadDir, 0777, true);
             }
 
-            $newName = uniqid() . '.' . $ext;
+            // Usar timestamp no nome para forçar atualização do cache
+            $newName = 'logo_' . time() . '_' . uniqid() . '.' . $ext;
             $uploadPath = $uploadDir . $newName;
 
             if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadPath)) {
+                // Deletar logo antigo se existir
                 if ($config['logo'] && file_exists('../' . $config['logo'])) {
                     unlink('../' . $config['logo']);
                 }
                 $logo = '/assets/upload/' . $newName;
+
+                // Limpar OPcache se estiver habilitado
+                if (function_exists('opcache_reset')) {
+                    opcache_reset();
+                }
+
+                // Regenerar ID de sessão para forçar atualização
+                session_regenerate_id(true);
             } else {
                 $_SESSION['failure'] = 'Erro ao fazer upload da logo!';
                 header('Location: ' . $_SERVER['PHP_SELF']);
@@ -940,7 +950,8 @@ $nome = $nome ? explode(' ', $nome)[0] : null;
                                 <?php if (!empty($config['logo'])): ?>
                                     <div class="current-logo">
                                         <p><i class="fas fa-image"></i> Logo atual:</p>
-                                        <img src="<?= htmlspecialchars($config['logo']) ?>" alt="Logo atual">
+                                        <img src="<?= htmlspecialchars($config['logo']) ?>?v=<?= time() ?>"
+                                            alt="Logo atual">
                                     </div>
                                 <?php endif; ?>
                             </div>

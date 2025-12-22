@@ -84,7 +84,8 @@ if (isset($_SESSION['usuario_id'])) {
         <!-- Logo -->
         <a href="/" class="logo">
             <?php if ($logoSite && file_exists($_SERVER['DOCUMENT_ROOT'] . $logoSite)): ?>
-                <img src="<?= htmlspecialchars($logoSite) ?>" alt="<?= htmlspecialchars($nomeSite) ?>" class="logo-image">
+                <img src="<?= htmlspecialchars($logoSite) ?>?v=<?= time() ?>" alt="<?= htmlspecialchars($nomeSite) ?>"
+                    class="logo-image">
             <?php else: ?>
                 <div class="logo-icon">
                     <?= strtoupper(substr($nomeSite, 0, 1)) ?>
@@ -203,7 +204,7 @@ if (isset($_SESSION['usuario_id'])) {
     <div class="sidebar-header">
         <div class="sidebar-logo">
             <?php if ($logoSite && file_exists($_SERVER['DOCUMENT_ROOT'] . $logoSite)): ?>
-                <img src="<?= htmlspecialchars($logoSite) ?>" alt="<?= htmlspecialchars($nomeSite) ?>"
+                <img src="<?= htmlspecialchars($logoSite) ?>?v=<?= time() ?>" alt="<?= htmlspecialchars($nomeSite) ?>"
                     class="sidebar-logo-image">
             <?php else: ?>
                 <div class="sidebar-logo-icon">
